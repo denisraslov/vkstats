@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Июл 15 2014 г., 13:36
+-- Время создания: Июл 15 2014 г., 13:42
 -- Версия сервера: 5.5.24-log
 -- Версия PHP: 5.3.13
 
@@ -35,7 +35,18 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `target_action` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=40 ;
+
+--
+-- Дамп данных таблицы `actions`
+--
+
+INSERT INTO `actions` (`id`, `title`, `type`, `value`, `project_id`, `target_action`) VALUES
+(35, 'rere', 'action', '', 16, 0),
+(36, 'dfgdfg', 'action', '', 16, 0),
+(37, 'dfgdfg', 'redirect', 'dfg', 16, 1),
+(38, 'tyutyutyu', 'action', '', 16, 1),
+(39, 'rtyrtyry', 'action', '', 17, 0);
 
 -- --------------------------------------------------------
 
@@ -71,7 +82,23 @@ CREATE TABLE IF NOT EXISTS `tracked_actions` (
   `user_id` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `action_id` (`action_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=234214333 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=234214343 ;
+
+--
+-- Дамп данных таблицы `tracked_actions`
+--
+
+INSERT INTO `tracked_actions` (`id`, `time`, `action_id`, `user_id`) VALUES
+(234214333, 1405431678, 37, 'zzgym2eOd'),
+(234214334, 1405431692, 36, 'zzgym2eOd'),
+(234214335, 1405431692, 35, 'zzgym2eOd'),
+(234214336, 1405431692, 36, 'zzgym2eOd'),
+(234214337, 1405431693, 36, 'zzgym2eOd'),
+(234214338, 1405431693, 35, 'zzgym2eOd'),
+(234214339, 1405431694, 36, 'zzgym2eOd'),
+(234214340, 1405431709, 36, 'zzgym2eOd'),
+(234214341, 1405431709, 35, 'zzgym2eOd'),
+(234214342, 1405431710, 38, 'zzgym2eOd');
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
