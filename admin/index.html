@@ -1,0 +1,220 @@
+﻿<!DOCTYPE HTML>
+<html ng-app="VKStatsAdminApp">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+<title>VKStats Administration Panel</title>
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/libs/angular.min.js"></script>
+<script src="js/libs/highcharts/highcharts.js"></script>
+<script src="js/libs/highcharts/exporting.js"></script>
+
+<script src="js/Controller.js"></script>
+<script src="js/Consts.js"></script>
+<script src="js/DataProvider.js"></script>
+<script src="js/Utility.js"></script>
+
+</head>
+<body ng-controller="VKStatsAdminCtrl">
+<div class="vkstat-main_pannel">
+	<button ng-click="ShowNewProjectPopup()" class="btn btn-success">Добавить проект</button>
+</div>
+<div ng-repeat="project in projects" project-id="{{project.id}}" class="vkstat-project">
+	<div class="vkstat-ptoject_pannel">
+		<div class="vkstat-ptoject_title">
+			{{project.title}}
+		</div>
+		<div class="vkstat-ptoject_actions">
+			<button ng-click="ShowFiltersPopup(project)" class="btn btn-primary">Настройки статистики</button>
+			<button ng-click="ShowNewActionPopup(project)" class="btn btn-success">Добавить действие</button>
+		</div>
+	</div>
+	<div class="vkstat-project_stats_container">
+	
+		<div class="vkstat-project_stats vkstat-project_table_target" ng-show="project.viewType == viewTypes.TARGET">
+			<table class="table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>
+							Действие
+						</th>
+						<th>
+							Время 
+						</th>
+						<th>
+							Пользователь 
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="action in project.statistic">
+						<td>
+							{{action.title}}
+						</td>
+						<td>
+							{{FormatTime(action.time, true)}}
+						</td>
+						<td>
+							{{action.user_id}} 
+						</td>
+					</tr>
+					<tr ng-show="project.statistic.length == 0">
+						<td colspan=3>
+							Данных нет
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="vkstat-project_stats vkstat-project_table" 
+			ng-show="project.viewType == viewTypes.TABLE">
+			<table class="table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>
+							Действие
+						</th>
+						<th>
+							Количество 
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="action in project.statistic">
+						<td>
+							{{action.title}}
+						</td>
+						<td>
+							{{action.count}} 
+						</td>
+					</tr>
+                    <tr ng-show="project.statistic.length == 0">
+                        <td colspan=2>
+                            Данных нет
+                        </td>
+                    </tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="vkstat-project_stats vkstat-project_table_days"
+			ng-show="project.viewType == viewTypes.DAILY_TABLE">
+			<table class="table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>
+							Дата
+						</th>
+						<th>
+							Количество 
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="action in project.statistic">
+						<td>
+							{{action[0]}}
+						</td>
+						<td>
+							{{action[1]}} 
+						</td>
+					</tr>
+                    <tr ng-show="project.statistic.length == 0">
+                        <td colspan=2>
+                            Данных нет
+                        </td>
+                    </tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="vkstat-project_stats vkstat-project_chart" style="width: 100%; height: 400px; margin: 0 auto;" 
+			ng-show="project.viewType == viewTypes.DAILY_CHART"></div>
+	</div>
+</div>
+
+<div class="modal fade vkstat-new_action_popup">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h4>Новое действие для {{activeProject.title}}</h4>
+  </div>
+  <div class="modal-body">
+    <p>Название</p>
+	<input type="text" ng-model="newAction.title">
+	<p>Тип</p>
+	<select ng-model="newAction.type" ng-options="type.title for type in actionTypes">
+	</select>
+	<div ng-show="newAction.type.id == actionTypeIDs.REDIRECT" class="vkstat-new_action_popup_value">
+		<p>Страница для редиректа</p>
+		<input type="text" ng-model="newAction.value">
+	</div>
+	<p>Целевое</p>
+	<select ng-model="newAction.target" ng-options="type.title for type in targetTypes">
+	</select>
+  </div>
+  <div class="modal-footer">
+	<button ng-click="AddAction()" ng-disabled="!ValidateNewAction()" class="btn btn-primary">Добавить</button>
+    <button class="btn" data-dismiss="modal">Отмена</button>
+  </div>
+</div>
+
+<div class="modal fade vkstat-new_project_popup">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Новый проект</h3>
+  </div>
+  <div class="modal-body">
+    <p>Название</p>
+	<input type="text" ng-model="newProjectTitle">
+  </div>
+  <div class="modal-footer">
+	<button ng-click="AddProject()" ng-disabled="!newProjectTitle" class="btn btn-primary">Добавить</button>
+    <button class="btn" data-dismiss="modal">Отмена</button>
+  </div>
+</div>
+
+<div class="modal fade vkstat-filters_popup">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h4>Настройки статистики для {{activeProject.title}}</h4>
+  </div>
+  <div class="modal-body">
+	<p>
+	<select 
+		ng-model="activeProject.filters.target" 
+		ng-options="setting.title for setting in targetSettings">
+	</select>
+	<p>
+    <select 
+		ng-model="activeProject.filters.action" 
+		ng-options="action.title for action in activeProject.actions" 
+		ng-show="activeProject.filters.target.id == targetSettingIDs.ALL"
+		ng-change="OnActionChange(activeProject)">
+	</select>
+	</p>
+	<p>
+	<select 
+		ng-model="activeProject.filters.unic" 
+		ng-show="activeProject.filters.target.id == targetSettingIDs.ALL" 
+		ng-options="setting.title for setting in unicSettings">
+	</select>
+	</p>
+	<p>
+	<select 
+		ng-model="activeProject.filters.dailyView" 
+		ng-show="(activeProject.filters.target.id == targetSettingIDs.ALL) && (activeProject.filters.action.id != 0)" 
+		ng-options="view.title for view in dailyViews">
+	</select>
+	</p>
+  </div>
+  <div class="modal-footer">
+	<button ng-click="ChangeFilters()" class="btn btn-primary">Применить</button>
+    <button class="btn" data-dismiss="modal">Отмена</button>
+  </div>
+</div>
+
+</body>
+</html>

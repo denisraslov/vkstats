@@ -1,0 +1,52 @@
+﻿<!DOCTYPE HTML>
+<html ng-app="VKStatsSiteApp">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+<title>VKStats Test Site</title>
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+
+<script src="js/vkstats-lib.js"></script>
+<script src="js/Controller.js"></script>
+
+</head>
+<body ng-controller="VKStatsSiteCtrl">
+
+<div class="vkstats-pannel">
+    <div class="vkstats-pannel-row">
+        <div class="vkstats-pannel_projects">
+        <select
+            ng-model="activeProject"
+            ng-options="project.title for project in projects"
+            ng-change="OnProjectChange()"
+        >
+        </select>
+        </div>
+        <div class="vkstats-pannel_info">
+                <div>
+                    <span class="vkstats-pannel_info_title">
+                        Сессия:
+                    </span>
+                    {{session}} (<span ng-click="RefreshSession()" class="vkstats-session_resfresh">Сбросить</span>)</div>
+        </div>
+    </div>
+</div>
+<div class="vkstat-actions">
+    <div ng-repeat="action in activeProject.actions" class="vkstat-action">
+        <button ng-show="action.type == 'action'"
+                ng-disabled="action.is_completed"
+                class="btn {{!action.is_completed ? 'btn-primary' : 'btn-success'}}"
+                ng-click="OnActionClick(action)">{{action.title}}</button>
+        <a ng-show="action.type == 'redirect'"
+           ng-disabled="action.is_completed"
+           ng-click="OnActionClick(action)" onclick="return false;" href="/{{action.value}}">{{action.title}}</a>
+    </div>
+    <div ng-show="activeProject.actions.length == 0">
+        Действий нет
+    </div>
+</div>
+
+</body>
+</html>

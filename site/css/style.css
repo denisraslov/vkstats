@@ -1,0 +1,71 @@
+
+body
+{
+	margin: 20px;
+}
+
+select
+{
+	margin: 0;
+}
+
+a[disabled]
+{
+    color: #ddd !important;
+}
+
+.vkstats-pannel
+{
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.vkstats-pannel-row
+{
+    display: table-row;
+    width: 100%;
+}
+
+.vkstats-pannel-row > div
+{
+    display: table-cell;
+}
+
+.vkstats-pannel_projects
+{
+    width: 99%;
+}
+
+.vkstats-pannel_info
+{
+    width: 300px;
+}
+
+.vkstats-pannel_info > div
+{
+    padding: 0 10px 0 0;
+}
+
+.vkstats-pannel_info_title
+{
+    font-weight: bold;
+}
+
+.vkstats-session_resfresh
+{
+    cursor: pointer;
+    color: #aaa;
+    text-decoration: underline;
+}
+
+.vkstat-actions
+{
+    padding: 20px 0;
+    text-align: center;
+}
+
+.vkstat-action
+{
+    padding: 10px;
+}
