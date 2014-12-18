@@ -2,8 +2,7 @@ VKStats
 =======
 Test issue for VK.COM competition. The site events tracking system.
 
-<b>The site part</b>:
-1. A library for events tracking on a site (pure JavaScript).
+<b>The site part</b>: <br>
 2. Test site with included library and example code for buttons clicks tracking (Angular). 
 
 <b>The admin part</b>:
