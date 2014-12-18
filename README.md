@@ -1,15 +1,15 @@
 VKStats
 =======
+Test issue for VK.COM competition. The site events tracking system.
 
-<b>Using frameworks</b>:
+<b>The site part</b>:
+1. A library for events tracking on a site (pure JavaScript).
+2. Test site with included library and example code for buttons clicks tracking (Angular). 
 
+<b>The admin part</b>:
+1. Backend that take a data about events needed to capture, occured events and prepare statistic data about it (PHP, MySQL).
+2. Admin interface to manage projects, events needed to capture and see statistic about occured events in tables and charts (jQuery, Angular, Highcharts JS, Twitter Bootstrap).
 
-<b>Front-end</b>:
-Admin panel: Angular, jQuery, Highcharts JS, Twitter Bootstrap
-Site: pure JS
-
-<b>Back-end</b>:
-PHP
 
 
 
